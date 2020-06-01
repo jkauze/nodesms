@@ -1,5 +1,6 @@
 const app = require('./server');
+require('./database');
 
-app.listen(3020, () =>{
-    console.log('Server on port 3020')
+app.listen(app.get('port'), () => {
+    console.log('Server on port', app.get('port'));
 })
