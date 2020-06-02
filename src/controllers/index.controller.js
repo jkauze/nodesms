@@ -1,8 +1,11 @@
 const { sendMessage } = require('../twilio/send-sms')
 const SMS = require('../models/sms');
+const messagingResponse = require('twilio').twiml.MessagingResponse;
+
+const { getSocket } = require('../sockets');
 
 const indexController = async (req, res) => {
-    const messages = await SMS.find().lean();
+    const messages = await SMS.find().sort('-createdAt').lean();
     res.render('index', { messages })
 }
 
@@ -18,7 +21,21 @@ const postMessage = async (req, res) => {
     res.redirect('/')
 };
 
-const recieveMessage = async (req, res) =>{
+const recieveMessage = async (req, res) => {
+    console.log(req.body)
+
+    const saveSMS = await SMS.create({
+        Body: req.body.Body,
+        From: req.body.From
+    })
+
+    getSocket().emit('new message', saveSMS);
+    
+    const twiml = new MessagingResponse();
+
+    twiml.message('This is my answer - JK');
+
+    res.send(twiml.toString());
 
 }
 
