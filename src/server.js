@@ -10,7 +10,8 @@ app.engine('.hbs', exphbs({
     layoutsDir: __dirname + '/views/layouts',
     partialsDir: __dirname + '/views/partials',
     defaultLayout: 'main',
-    extname: '.hbs'
+    extname: '.hbs',
+    helpers: require('./libs/handlebars')
 }));
 app.set('view engine', '.hbs');
 
