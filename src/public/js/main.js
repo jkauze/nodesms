@@ -1,7 +1,7 @@
 const socket = io()
 
 Notification.requestPermission().then(function (result) {
-    console.log(result);
+    // console.log(result);
 });
 
 function notifyMe(message = 'Hi there') {
